@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Living Lab Escape Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="user-name" id="userName"></div>
+
+    <!-- Leaderboard Button -->
+    <button class="leaderboard-btn" id="leaderboardBtn">🏆 Leaderboard</button>
+
+    <!-- Leaderboard Container -->
+    <div class="leaderboard-container" id="leaderboardContainer">
+        <div class="leaderboard-content">
+            <div class="leaderboard-header">
+                <h2 class="leaderboard-title">🏆 Top Performers</h2>
+                <button class="close-leaderboard" id="closeLeaderboard">Close</button>
+            </div>
+            
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Money Lost</th>
+                        <th>Hints</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardTableBody">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+
+            <div class="csv-controls">
+                <button class="csv-btn export" id="exportCSV">📥 Download CSV Backup</button>
+                <p style="color: #4ecdc4; margin: 10px 0; font-size: 14px;">
+                    💾 Data automatically saves to: <code>data/leaderboard.csv</code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="scenarioContainer">
+        <h1>Scenario</h1>
+        <div class="instructions">
+            <p>Your team is the last line of IT support for a major company that has just suffered a sudden system-wide outage. 
+                The CEO is furious, the finance team is screaming, and every passing minute costs thousands of dollars in lost revenue. 
+                Your mission: diagnose, repair, and bring all systems online before disaster strikes. 
+                "Attention IT Support: The company network is down. Time is money, and we're bleeding fast. You've been pulled in to save the day."  
+                A running clock will display time left and attached below is growing losses due to downtime. Each hint takes away time (and costs money). 
+                At the end of the challenge, there is a real-life prize pool of things you can get with the company money saved from the escape.</p>
+        </div>
+    </div>
+
+    <img class="backButton" src="../assets/backButton.png"></img>
+    <img class="nextButton" src="../assets/nextButton.png"></img>
+    
+    <div class="instructionsContainer">
+        <h1 style="text-align: center; margin-bottom: 30px;">💰 Money Timer Challenge</h1>
+
+        <div class="instructions">
+            <p><strong>Challenge:</strong> Enter your name to start the challenge! Every second costs you $30.</p>
+        </div>
+
+        <div class="info-dropdowns" id="infoDropdowns">
+            <details class="info-dropdown">
+                <summary>💰 Money Rules</summary>
+                <div class="info-dropdown-content">
+                    <p>You start with $72,000. You lose $30 every second the timer runs. Complete the challenge quickly to minimize losses!</p>
+                </div>
+            </details>
+            
+            <details class="info-dropdown">
+                <summary>💡 Using Hints</summary>
+                <div class="info-dropdown-content">
+                    <p>Using hints will add extra time to your challenge, costing you more money. Try to solve without hints first!</p>
+                </div>
+            </details>
+            
+            <details class="info-dropdown">
+                <summary>⚠️ Multiple Issues</summary>
+                <div class="info-dropdown-content">
+                    <p>Be aware that more than one thing may be wrong in the challenge. Check everything carefully!</p>
+                </div>
+            </details>
+            
+            <details class="info-dropdown">
+                <summary>🎯 Goal</summary>
+                <div class="info-dropdown-content">
+                    <p>Find and fix all the issues as quickly as possible. Only the correct password can stop the timer!</p>
+                </div>
+            </details>
+
+            <details class="info-dropdown">
+                <summary>🎁 Prize</summary>
+                <div class="info-dropdown-content">
+                    <p>Escape within a certain amount of time and win these prizes!</p>
+                    <ul>
+                        <li>Level 1: </li>
+                        <li>Level 2: </li>
+                        <li>Level 3: </li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
+        <div class="timer-display" id="timerDisplay" style="display: none;">
+            <div class="timer" id="timeDisplay">40:00</div>
+            <div class="money" id="moneyDisplay">$72,000</div>
+        </div>
+
+        <form id="challengeForm">
+            <div class="form-group">
+                <label for="mainInput" id="mainLabel">Your Name:</label>
+                <input type="text" id="mainInput" name="mainInput" autocomplete="off" maxlength="25" required>
+            </div>
+
+            <div class="status" id="status"></div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Start Challenge!
+            </button>
+        </form>
+    </div>
+
+    <!-- Updated Stats Container -->
+    <div class="statsContainer" id="statsContainer">
+        <h1 class="stats-title">🏆 Challenge Complete!</h1>
+        
+        <div class="performance-grade" id="performanceGrade">
+            Grade: A+
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Time Spent</div>
+                <div class="stat-value" id="timeSpentStat">05:23</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Money Lost</div>
+                <div class="stat-value danger" id="moneyLostStat">$9,690</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Hints Used</div>
+                <div class="stat-value warning" id="hintsUsedStat">2</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-label">Time Remaining</div>
+                <div class="stat-value" id="timeRemainingStat">34:37</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <p><strong>Performance Summary:</strong></p>
+            <p id="performanceSummary">Excellent work! You completed the challenge quickly with minimal hints.</p>
+        </div>
+        
+    </div>
+
+    <div class="hintsContainer">
+        <div class="hints-container">
+            <h3>💡 Hints System</h3>
+            
+            <div class="hints-info" id="hintsInfo">
+                <p><strong>How Hints Work:</strong></p>
+                <p>• There are 3 available hints</p>
+                <p>• Using a hint costs 90 seconds + money</p>
+                <p>• Hints disappear after being used</p>
+                <p style="color: gold;">• Alert the host when you use a hint!</p>
+            </div>
+            
+            <div class="hints-game" id="hintsGame" style="display: none;">
+                <div class="hints-grid">
+                    <div class="hint-lock" data-hint="1" id="hint1">
+                        <img src="../assets/Locked.png" alt="Hint 1" id="hint1-img">
+                    </div>
+                    <div class="hint-lock" data-hint="2" id="hint2">
+                        <img src="../assets/Locked.png" alt="Hint 2" id="hint2-img">
+                    </div>
+                    <div class="hint-lock" data-hint="3" id="hint3">
+                        <img src="../assets/Locked.png" alt="Hint 3" id="hint3-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for confirmations -->
+    <div id="modalOverlay" class="modal-overlay hidden">
+        <div class="modal">
+            <h3 id="modalTitle">Confirm Action</h3>
+            <p id="modalMessage">Are you sure?</p>
+            <div class="modal-buttons">
+                <button id="modalCancel" class="modal-btn cancel">Cancel</button>
+                <button id="modalConfirm" class="modal-btn confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Modal for alerts -->
+    <div id="alertOverlay" class="modal-overlay hidden">
+        <div class="modal">
+            <h3 id="alertTitle">Information</h3>
+            <p id="alertMessage">Alert message</p>
+            <div class="modal-buttons">
+                <button id="alertOk" class="modal-btn ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
